@@ -1,0 +1,5 @@
+RAPPORT D'ANALYSE SYNTAXIQUE
+================================
+Ligne 1: [VALIDE] Symbole @ -> Ajout 1er et 3ème mot.
+Ligne 2: [VALIDE] Symbole # -> Ajout 1er et 2ème mot.
+Ligne 3: [VALIDE] Symbole @ -> Ajout 1er et 3ème mot.
