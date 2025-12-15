@@ -1,3 +1,3 @@
-@ Validation / du / systeme !
-# Test / de / reprise ?
-@ Fin / du / test !
+@ mot / avec / chiffres !
+# symbole inconnu % ici ?
+$ mot . bon / FIN ?

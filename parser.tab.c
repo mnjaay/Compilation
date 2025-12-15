@@ -430,7 +430,7 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    31,    31,    35,    36,    40,    45,    50,    56
+       0,    31,    31,    35,    36,    40,    45,    50,    69
 };
 #endif
 
@@ -1359,15 +1359,28 @@ yyreduce:
   case 7:
 #line 50 "parser.y"
     {
-        fprintf(rapport_file, "Ligne %d: [VALIDE] Symbole $ -> Ajout des 3 mots.\n", ligne_num);
-        ajouter_mot((yyvsp[(2) - (7)].str));
-        ajouter_mot((yyvsp[(4) - (7)].str));
-        ajouter_mot((yyvsp[(6) - (7)].str));
+        fprintf(rapport_file, "Ligne %d: [VALIDE] Symbole $ -> Ajout du mot concaténé.\n", ligne_num);
+        /* Concatène les trois mots en une seule chaîne puis l'ajoute */
+        size_t len = strlen((yyvsp[(2) - (7)].str)) + strlen((yyvsp[(4) - (7)].str)) + strlen((yyvsp[(6) - (7)].str)) + 1;
+        char *concat = (char*)malloc(len);
+        if (concat) {
+            concat[0] = '\0';
+            strcat(concat, (yyvsp[(2) - (7)].str));
+            strcat(concat, (yyvsp[(4) - (7)].str));
+            strcat(concat, (yyvsp[(6) - (7)].str));
+            ajouter_mot(concat);
+            free(concat);
+        } else {
+            fprintf(rapport_file, "Ligne %d: [WARN] allocation échouée, ajout séparé.\n", ligne_num);
+            ajouter_mot((yyvsp[(2) - (7)].str));
+            ajouter_mot((yyvsp[(4) - (7)].str));
+            ajouter_mot((yyvsp[(6) - (7)].str));
+        }
     ;}
     break;
 
   case 8:
-#line 56 "parser.y"
+#line 69 "parser.y"
     {
         yyerrok; 
     ;}
@@ -1375,7 +1388,7 @@ yyreduce:
 
 
 /* Line 1267 of yacc.c.  */
-#line 1379 "parser.tab.c"
+#line 1392 "parser.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1589,7 +1602,7 @@ yyreturn:
 }
 
 
-#line 61 "parser.y"
+#line 74 "parser.y"
 
 
 void yyerror(const char *s) {

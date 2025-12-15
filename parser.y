@@ -48,10 +48,23 @@ phrase:
         ajouter_mot($4);
     }
     | SYM_DOLLAR MOT SEP MOT SEP MOT END {
-        fprintf(rapport_file, "Ligne %d: [VALIDE] Symbole $ -> Ajout des 3 mots.\n", ligne_num);
-        ajouter_mot($2);
-        ajouter_mot($4);
-        ajouter_mot($6);
+        fprintf(rapport_file, "Ligne %d: [VALIDE] Symbole $ -> Ajout du mot concaténé.\n", ligne_num);
+        /* Concatène les trois mots en une seule chaîne puis l'ajoute */
+        size_t len = strlen($2) + strlen($4) + strlen($6) + 1;
+        char *concat = (char*)malloc(len);
+        if (concat) {
+            concat[0] = '\0';
+            strcat(concat, $2);
+            strcat(concat, $4);
+            strcat(concat, $6);
+            ajouter_mot(concat);
+            free(concat);
+        } else {
+            fprintf(rapport_file, "Ligne %d: [WARN] allocation échouée, ajout séparé.\n", ligne_num);
+            ajouter_mot($2);
+            ajouter_mot($4);
+            ajouter_mot($6);
+        }
     }
     | error END {
         yyerrok; 

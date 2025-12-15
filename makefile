@@ -30,4 +30,4 @@ clean:
 
 # Pour lancer un test rapidement
 run: all
-	./$(EXEC) tests/test1.txt
+	./$(EXEC) tests/test1.txt 
